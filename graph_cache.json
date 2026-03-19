@@ -1,0 +1,134 @@
+{
+  "city_registry": {
+    "Delhi": {
+      "name": "Delhi",
+      "lat": 28.7041,
+      "lon": 77.1025
+    },
+    "Mumbai": {
+      "name": "Mumbai",
+      "lat": 19.0760,
+      "lon": 72.8777
+    },
+    "Chennai": {
+      "name": "Chennai",
+      "lat": 13.0827,
+      "lon": 80.2707
+    },
+    "Kolkata": {
+      "name": "Kolkata",
+      "lat": 22.5726,
+      "lon": 88.3639
+    },
+    "Bengaluru": {
+      "name": "Bengaluru",
+      "lat": 12.9716,
+      "lon": 77.5946
+    },
+    "Hyderabad": {
+      "name": "Hyderabad",
+      "lat": 17.3850,
+      "lon": 78.4867
+    },
+    "Ahmedabad": {
+      "name": "Ahmedabad",
+      "lat": 23.0225,
+      "lon": 72.5714
+    },
+    "Pune": {
+      "name": "Pune",
+      "lat": 18.5204,
+      "lon": 73.8567
+    },
+    "Jaipur": {
+      "name": "Jaipur",
+      "lat": 26.9124,
+      "lon": 75.7873
+    },
+    "Visakhapatnam": {
+      "name": "Visakhapatnam",
+      "lat": 17.6868,
+      "lon": 83.2185
+    },
+    "Coimbatore": {
+      "name": "Coimbatore",
+      "lat": 11.0168,
+      "lon": 76.9558
+    },
+    "Kochi": {
+      "name": "Kochi",
+      "lat": 9.9312,
+      "lon": 76.2673
+    },
+    "Guwahati": {
+      "name": "Guwahati",
+      "lat": 26.1445,
+      "lon": 91.7362
+    }
+  },
+  "graph": {
+    "Delhi": [
+      ["Mumbai", 1410],
+      ["Chennai", 2200],
+      ["Kolkata", 1500],
+      ["Bengaluru", 2150],
+      ["Hyderabad", 1580]
+    ],
+    "Mumbai": [
+      ["Delhi", 1410],
+      ["Pune", 150],
+      ["Ahmedabad", 530],
+      ["Hyderabad", 710]
+    ],
+    "Chennai": [
+      ["Bengaluru", 350],
+      ["Hyderabad", 630],
+      ["Kochi", 680],
+      ["Coimbatore", 500]
+    ],
+    "Kolkata": [
+      ["Delhi", 1500],
+      ["Guwahati", 1000],
+      ["Visakhapatnam", 870]
+    ],
+    "Bengaluru": [
+      ["Chennai", 350],
+      ["Hyderabad", 570],
+      ["Coimbatore", 360]
+    ],
+    "Hyderabad": [
+      ["Delhi", 1580],
+      ["Mumbai", 710],
+      ["Chennai", 630],
+      ["Bengaluru", 570]
+    ],
+    "Ahmedabad": [
+      ["Mumbai", 530],
+      ["Jaipur", 670]
+    ],
+    "Pune": [
+      ["Mumbai", 150],
+      ["Hyderabad", 560]
+    ],
+    "Jaipur": [
+      ["Delhi", 280],
+      ["Ahmedabad", 670]
+    ],
+    "Visakhapatnam": [
+      ["Hyderabad", 620],
+      ["Kolkata", 870]
+    ],
+    "Coimbatore": [
+      ["Bengaluru", 360],
+      ["Chennai", 500],
+      ["Kochi", 190]
+    ],
+    "Kochi": [
+      ["Coimbatore", 190],
+      ["Chennai", 680]
+    ],
+    "Guwahati": [
+      ["Kolkata", 1000]
+    ]
+  }
+}
