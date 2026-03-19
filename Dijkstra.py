@@ -6,7 +6,7 @@ import urllib.parse
 import urllib.request
 try:
     from dotenv import load_dotenv
-    load_dotenv()
+    load_dotenv(dotenv_path=".env")
 except ImportError:
     pass
 API_KEY = os.environ.get("GOOGLE_API_KEY")
@@ -31,7 +31,6 @@ def load_cache():
         return registry, graph
     except Exception:
         return {}, {}
-
 def save_cache(registry, graph):
     with open(CACHE_FILE, "w") as f:
         json.dump({"city_registry": registry, "graph": graph}, f, indent=2)
@@ -41,7 +40,8 @@ def _get(url, params):
     try:
         with urllib.request.urlopen(req, timeout=15) as r:
             return json.loads(r.read().decode())
-    except:
+    except Exception as e:
+        print("HTTP error:", e)
         return None
 def geocode_city(name):
     data = _get(GEOCODE_URL, {
@@ -49,7 +49,11 @@ def geocode_city(name):
         "region": "in",
         "key": API_KEY,
     })
-    if not data or data.get("status") != "OK":
+    if not data:
+        print("No response for", name)
+        return None
+    if data.get("status") != "OK":
+        print("Geocode failed for", name, ":", data.get("status"))
         return None
     result = data["results"][0]
     location = result["geometry"]["location"]
@@ -73,7 +77,11 @@ def _distance_batch(origin_names, dest_names):
         "units": "metric",
         "key": API_KEY,
     })
-    if not data or data.get("status") != "OK":
+    if not data:
+        print("No response from distance API")
+        return None
+    if data.get("status") != "OK":
+        print("Distance API error:", data.get("status"))
         return None
     matrix = []
     for row in data["rows"]:
@@ -93,6 +101,7 @@ def build_graph(city_list):
         matrix = _distance_batch(batch_origins, names)
         time.sleep(REQUEST_DELAY)
         if matrix is None:
+            print("Skipping batch due to API error")
             continue
         for r, src in enumerate(batch_origins):
             for c, dst in enumerate(names):
@@ -135,6 +144,7 @@ def build_default_graph():
             registry[geo["name"]] = geo
         time.sleep(0.1)
     if len(registry) < 2:
+        print("Not enough cities geocoded")
         return registry, {}
     graph = build_graph(list(registry.values()))
     save_cache(registry, graph)
@@ -172,9 +182,11 @@ def action_shortest_path(registry, graph):
     src = input("Source: ").strip().title()
     dst = input("Destination: ").strip().title()
     if src not in graph or dst not in graph or src == dst:
+        print("Invalid city")
         return
     dist, prev = dijkstra(graph, src)
     if dist[dst] == float("inf"):
+        print("No path found")
         return
     print(dist[dst], "km")
     print(" -> ".join(reconstruct_path(prev, dst)))
@@ -183,21 +195,26 @@ def action_all_from(graph):
         return
     src = input("Source: ").strip().title()
     if src not in graph:
+        print("Invalid city")
         return
     dist, _ = dijkstra(graph, src)
     for city, d in sorted(dist.items()):
         if d != float("inf") and city != src:
             print(city, d)
 def action_show(registry):
+    if not registry:
+        print("No cities available")
+        return
     for c in registry:
         print(c)
 def action_clear(registry, graph):
     if os.path.exists(CACHE_FILE):
         os.remove(CACHE_FILE)
+        print("Cache cleared")
     return {}, {}
 def main():
     registry, graph = load_cache()
-    if not registry:
+    if not registry or not graph:
         registry, graph = build_default_graph()
     while True:
         print("\n1 Add\n2 Remove\n3 Refresh\n4 Path\n5 All distances\n6 Show\n7 Clear\n8 Exit")
