@@ -37,7 +37,7 @@ Q1_Dijkstra_indian_cities
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/m-o-n-i-sh/se24ucse153_AI_programing_assignment_3.git
-cd se24ucse153_AI_programing_assignment_3
+cd se24ucse153_AI_programing_assignment_3/Q1_Dijkstra_indian_cities
 ```
 ### 2. Install dependencies
 ```
